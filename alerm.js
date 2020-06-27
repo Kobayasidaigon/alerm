@@ -1,4 +1,3 @@
-
 const decideTimeButton = document.querySelector(".decideTimeButton");
 decideTimeButton.addEventListener("click", function () {
   //アラームをかける時間を取得
@@ -16,9 +15,18 @@ var fn = function () {
 //初期表示で現在時刻を表示
 window.onload = function () {
   displayTime();
+  const date = new Date();
+  //画面が表示されたタイミングで後どれだけで１分進むか計算
+  const remainingSeconds = 60000 - date.getSeconds() * 1000;
+  setTimeout(() => {
+    displayTime();
+    //このタイミングで一分たつごとに表示が変わります。
+    startMinutesInterval;
+  }, remainingSeconds);
 };
 
-setInterval(() => {
+//時間経過とともに表示変化
+var startMinutesInterval = setInterval(() => {
   displayTime();
 }, 60000);
 
