@@ -2,14 +2,18 @@ const decideTimeButton = document.querySelector(".decideTimeButton");
 decideTimeButton.addEventListener("click", function () {
   //アラームをかける時間を取得
   let decideTime = document.querySelector("input[name='time']").value;
-  let time = decideTime.split(":");
-
-  var tm = 1000;
-  set = setInterval(fn, tm);
+  set = setInterval(time_confirmation(decideTime), 60000);
 });
 
-var fn = function () {
-  console.log("10秒経過しました");
+//アラームを鳴らすかチェック
+var time_confirmation = function (decideTime) {
+  const NowDisplayTime = getDisplayTime();
+  var time_confirm = setInterval(() => {
+    if (decideTime === NowDisplayTime) {
+      alert("時間だよ");
+      clearInterval(time_confirm);
+    }
+  }, 60000);
 };
 
 //初期表示で現在時刻を表示
@@ -32,11 +36,8 @@ var startMinutesInterval = setInterval(() => {
 
 //画面に表示される時間を取得、反映
 function displayTime() {
-  const date = new Date();
   let DisplayTime = document.querySelector("input[name='time']");
-  const DisplayTimeHH = toDoubleDigits(date.getHours());
-  const DisplayTimeMM = toDoubleDigits(date.getMinutes());
-  DisplayTime.value = DisplayTimeHH + ":" + DisplayTimeMM;
+  DisplayTime.value = getDisplayTime();
   document.querySelector(".now-time").textContent = DisplayTime.value;
 }
 
@@ -48,3 +49,11 @@ var toDoubleDigits = function (num) {
   }
   return num;
 };
+
+//表示する時刻を値として返す
+function getDisplayTime() {
+  const date = new Date();
+  const DisplayTimeHH = toDoubleDigits(date.getHours());
+  const DisplayTimeMM = toDoubleDigits(date.getMinutes());
+  return DisplayTimeHH + ":" + DisplayTimeMM;
+}
