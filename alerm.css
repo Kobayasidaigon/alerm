@@ -1,0 +1,24 @@
+body {
+  font-family: Noto, Hiragino Sans, Helvetica, Arial, sans-serif;
+}
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  flex-direction: column;
+  padding-top: 20%;
+}
+.now-time {
+  font-size: 4rem;
+}
+
+input[type="time"] {
+  text-align: center;
+  padding: 0 5%;
+  width: 200px;
+  height: 36px;
+  font-size: 2rem;
+  color: #999;
+  margin-bottom: 5%;
+}
