@@ -1,21 +1,26 @@
-
 const decideTimeButton = document.querySelector(".decideTimeButton");
 decideTimeButton.addEventListener("click", function () {
   //ストレージに値を保存してブラウザを閉じても値を残します
-  localStorage.setItem("decideTime", document.querySelector("input[name='time']").value);
-  //アラームをかける時間を取得
-  let decideTime = localStorage.getItem("decideTime");
-  set = setInterval(time_confirmation(decideTime), 60000);
+  debugger;
+  setAlermTime(document.querySelector("input[name='time']").value);
 });
 
 //アラームを鳴らすかチェック
 var time_confirmation = function (decideTime) {
-  const NowDisplayTime = getDisplayTime();
   var time_confirm = setInterval(() => {
+    const NowDisplayTime = getDisplayTime();
     if (decideTime === NowDisplayTime) {
-      alert("時間だよ");
-      clearInterval(time_confirm);
-      localStorage.clear("decideTime");
+      var res = confirm("時間だよ\nスヌーズしますか？");
+      if (res) {
+        const date = new Date();
+        const DisplayTimeHH = toDoubleDigits(date.getHours());
+        const DisplayTimeMM = toDoubleDigits(date.getMinutes() + 2);
+        setAlermTime(DisplayTimeHH + ":" + DisplayTimeMM);
+      } else {
+        //アラーム終了
+        clearInterval(time_confirm);
+        localStorage.clear("decideTime");
+      }
     }
   }, 60000);
 };
@@ -60,4 +65,12 @@ function getDisplayTime() {
   const DisplayTimeHH = toDoubleDigits(date.getHours());
   const DisplayTimeMM = toDoubleDigits(date.getMinutes());
   return DisplayTimeHH + ":" + DisplayTimeMM;
+}
+
+//スヌーズを利用した時に5分後にアラームが表示されるようにする
+function setAlermTime(setTime) {
+  localStorage.setItem("decideTime", setTime);
+  //アラームをかける時間を取得
+  let decideTime = localStorage.getItem("decideTime");
+  set = setInterval(time_confirmation(decideTime), 60000);
 }
