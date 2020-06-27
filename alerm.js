@@ -1,7 +1,10 @@
+
 const decideTimeButton = document.querySelector(".decideTimeButton");
 decideTimeButton.addEventListener("click", function () {
+  //ストレージに値を保存してブラウザを閉じても値を残します
+  localStorage.setItem("decideTime", document.querySelector("input[name='time']").value);
   //アラームをかける時間を取得
-  let decideTime = document.querySelector("input[name='time']").value;
+  let decideTime = localStorage.getItem("decideTime");
   set = setInterval(time_confirmation(decideTime), 60000);
 });
 
@@ -12,6 +15,7 @@ var time_confirmation = function (decideTime) {
     if (decideTime === NowDisplayTime) {
       alert("時間だよ");
       clearInterval(time_confirm);
+      localStorage.clear("decideTime");
     }
   }, 60000);
 };
